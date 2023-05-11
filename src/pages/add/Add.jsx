@@ -5,11 +5,12 @@ import Navbar from "../../components/navbar/Navbar";
 import Cookies from "js-cookie";
 import ManagerService from "../../service/ManagerService";
 import WorkerService from "../../service/WorkerService";
-
+import { useNavigate } from "react-router-dom";
 const Add = () => {
   const [managerid, setManagerid] = useState("");
   const [companyid, setCompanyid] = useState("");
   const token = Cookies.get("token");
+  const navigate = useNavigate();
   useEffect(() => {
     ManagerService.getInfoForAdmin(token).then((response) => {
       console.log(response);
@@ -53,6 +54,7 @@ const Add = () => {
     WorkerService.addEmployee(employee).then(
       () => {
         alert("başarılı");
+        navigate("/employee");
       },
       (response) => {
         alert(response.response.data.message);
@@ -212,7 +214,7 @@ const Add = () => {
                   <label>Address</label>
                   <input
                     type="text"
-                    nChange={(e) =>
+                    onChange={(e) =>
                       setEmployee({ ...employee, address: e.target.value })
                     }
                   />

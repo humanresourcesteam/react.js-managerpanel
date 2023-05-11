@@ -17,7 +17,7 @@ const NewEmployee = () => {
     console.log("useEffect runs");
 
     axios
-      .get("http://localhost:9092/api/v1/manager/find-five-manager")
+      .get("http://localhost:9093/api/v1/workers/get-new-employee")
       .then((response) => {
         setWidgetmanager([...response.data]);
       });
@@ -35,9 +35,9 @@ const NewEmployee = () => {
             <img src={employee.image} alt="" className="widgetSmImg" />
             <div className="widgetSmEmployee">
               <span className="widgetUsername">
-                {employee.firstName} {employee.surname}
+                {employee.name} {employee.surname}
               </span>
-              <span className="widgetUserTitle">Software Developer</span>
+              <span className="widgetUserTitle">{employee.occupation}</span>
             </div>
             <Link
               className="links"

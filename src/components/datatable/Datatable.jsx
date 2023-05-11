@@ -50,7 +50,7 @@ const Datatable = () => {
             <div className="view">
               <Link
                 className="links"
-                to={"/manager/" + params.row.id}
+                to={"/employee/" + params.row.id}
                 style={{ textDecoration: "none" }}
               >
                 <span>View Profile</span>

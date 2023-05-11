@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import List from "./pages/list/List";
 import Add from "./pages/add/Add";
+import Single from "./pages/single/Single";
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
             <Route path="employee">
               <Route index element={<List />} />
               <Route path="add" element={<Add />} />
+              <Route path=":employeeId" element={<Single />} />
               {/* <Route path=":employee" element={<Single />} />
               <Route path="new" element={<New />} /> */}
             </Route>
