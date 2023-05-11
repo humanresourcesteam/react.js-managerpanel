@@ -1,0 +1,71 @@
+.add {
+  display: flex;
+
+  .addContainer {
+    flex: 10;
+  }
+  .top {
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    .title {
+      font-weight: bold;
+      color: var(--second-color);
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+  .bottom {
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+    display: flex;
+    flex-direction: column;
+    .bottom_top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .bottom_bottom {
+      display: flex;
+      gap: 30px;
+      flex-direction: column;
+
+      .formInput {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        label {
+          font-weight: 500;
+        }
+      }
+
+      .form_left {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form_right {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  }
+}
+.formarea {
+  display: flex;
+  gap: 30px;
+}
+.addButton {
+  height: 35px;
+  border: none;
+  background-color: var(--second-color);
+  color: white;
+  font-weight: 600;
+  &:hover {
+    background-color: #6439ff;
+  }
+}

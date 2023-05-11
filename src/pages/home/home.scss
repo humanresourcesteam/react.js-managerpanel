@@ -1,0 +1,52 @@
+.home {
+  display: flex;
+  .homeContainer {
+    flex: 10;
+  }
+  .widgets {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .charts {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .tablearea {
+    display: flex;
+    flex-direction: column;
+    flex: 5;
+    gap: 10px;
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+    span {
+      margin-top: 10px;
+      margin-left: 5px;
+      color: #6439ffab;
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }
+}
+.circ {
+  display: flex;
+  gap: 20px;
+  max-height: 500px;
+  padding: 20px;
+}
+.circ_left {
+  display: flex;
+  gap: 20px;
+  flex: 2;
+}
+.circ_right {
+  flex: 4;
+  display: flex;
+}
+.circ_left_ave {
+  max-height: 350px;
+}

@@ -1,0 +1,50 @@
+:root {
+  /* Light mode variables */
+  /* ... */
+  --table-text-color: #333;
+  --table-bg-color: #fff;
+  --table-head-bg-color: #f1f1f1;
+  --table-row-hover-color: #f5f5f5;
+
+  /* Dark mode variables */
+  /* ... */
+  --dark-table-text-color: white;
+  --dark-table-bg-color: #121212;
+  --dark-table-head-bg-color: #white;
+  --dark-table-row-hover-color: #e2dafc3a;
+}
+.table {
+  flex: 5;
+  .cellWrapper {
+    .image {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}
+
+.tableCell {
+  color: #1d3354;
+}
+
+.table.dark {
+  background-color: var(--dark-table-bg-color);
+}
+
+.tableCell.dark {
+  color: var(--dark-table-text-color);
+}
+
+.dark .MuiTableHead-root {
+  background-color: var(--dark-table-head-bg-color);
+}
+
+.dark .MuiTableRow-root:hover {
+  background-color: var(--dark-table-row-hover-color);
+}
+
+.tableCell.dark {
+  color: #fff;
+}
