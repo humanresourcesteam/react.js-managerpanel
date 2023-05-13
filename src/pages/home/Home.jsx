@@ -5,7 +5,9 @@ import Widget from "../../components/widgets/Widget";
 import NewEmployee from "../../components/newEmployee/NewEmployee";
 import Tables from "../../components/table/Tables";
 import BarCharts from "../../components/bar/BarCharts";
+import AverageWork from "../../components/averagework/AverageWork";
 import withAuth from "../../withAuth";
+import PercentArea from "../../components/percentarea/PercentArea";
 const Home = () => {
   return (
     <div className="home">
@@ -22,16 +24,15 @@ const Home = () => {
         <div className="circ">
           <div className="circ_left">
             <NewEmployee />
-            <NewEmployee />
           </div>
           <div className="circ_right">
+            <BarCharts />
             <BarCharts />
           </div>
         </div>
         <div className="charts">
           {/* <NewEmployee /> */}
           <div className="tablearea">
-            <span>All Employee</span>
             <Tables />
           </div>
         </div>

@@ -18,11 +18,13 @@
 
   .tablearea {
     display: flex;
-    flex-direction: column;
+
     flex: 5;
     gap: 10px;
     -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
     box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+    min-height: 400px;
+
     span {
       margin-top: 10px;
       margin-left: 5px;
@@ -41,11 +43,12 @@
 .circ_left {
   display: flex;
   gap: 20px;
-  flex: 2;
+  flex: 1;
 }
 .circ_right {
   flex: 4;
   display: flex;
+  gap: 20px;
 }
 .circ_left_ave {
   max-height: 350px;

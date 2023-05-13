@@ -13,6 +13,9 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ManagerService from "../../service/ManagerService";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
+import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import Logout from "../logout/Logout";
 const Sidebar = () => {
   const token = Cookies.get("token");
@@ -21,7 +24,7 @@ const Sidebar = () => {
     ManagerService.getImage(token).then((response) => {
       setImage(response.data);
     });
-  }, []);
+  }, [token]);
 
   return (
     <div className="sidebar">
@@ -39,6 +42,7 @@ const Sidebar = () => {
                 ? image
                 : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
             }
+            alt="avatar"
           />
         </div>
         <div className="sidebar__center--menu">
@@ -63,6 +67,27 @@ const Sidebar = () => {
               <div className="list__item">
                 <PersonAddOutlinedIcon className="icon" />
                 <span>Employee Add</span>
+              </div>
+            </Link>
+          </div>
+          <div className="menu__list">
+            <span className="main_span">LIST</span>
+            <Link to="/advance" style={{ textDecoration: "none" }}>
+              <div className="list__item">
+                <FormatListNumberedIcon className="icon" />
+                <span>Advance List</span>
+              </div>
+            </Link>
+            <Link to="/expence" style={{ textDecoration: "none" }}>
+              <div className="list__item">
+                <FormatListBulletedOutlinedIcon className="icon" />
+                <span>Expense List</span>
+              </div>
+            </Link>
+            <Link to="/permi" style={{ textDecoration: "none" }}>
+              <div className="list__item">
+                <FactCheckOutlinedIcon className="icon" />
+                <span>Authorisation List</span>
               </div>
             </Link>
           </div>

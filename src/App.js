@@ -5,6 +5,9 @@ import Profile from "./pages/profile/Profile";
 import List from "./pages/list/List";
 import Add from "./pages/add/Add";
 import Single from "./pages/single/Single";
+import AdvanceList from "./pages/advancelist/AdvanceList";
+import ExpenceList from "./pages/expenselist/ExpenceList";
+import Permission from "./pages/permission/Permission";
 function App() {
   return (
     <div className="App">
@@ -22,6 +25,15 @@ function App() {
               <Route path=":employeeId" element={<Single />} />
               {/* <Route path=":employee" element={<Single />} />
               <Route path="new" element={<New />} /> */}
+            </Route>
+            <Route path="advance">
+              <Route index element={<AdvanceList />} />
+            </Route>
+            <Route path="permi">
+              <Route index element={<Permission />} />
+            </Route>
+            <Route path="expence">
+              <Route index element={<ExpenceList />} />
             </Route>
           </Route>
         </Routes>
