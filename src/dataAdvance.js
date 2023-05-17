@@ -1,35 +1,48 @@
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 200 },
-
+  { field: "id", headerName: "ID", width: 220 },
   {
-    field: "name",
-    headerName: "Name",
-    width: 230,
-  },
-  {
-    field: "requestDate",
-    headerName: "Date",
-    width: 200,
-  },
-  {
-    field: "amount",
-    headerName: "Price",
-    width: 250,
-  },
-  {
-    field: "requestType",
+    field: "advanceRequestType",
     headerName: "Request Type",
-    width: 170,
+    width: 210,
   },
-
   {
-    field: "status",
-    headerName: "Status",
-    width: 160,
+    field: "nameOfTheRequester",
+    headerName: "Name",
+    width: 170,
     renderCell: (params) => {
       return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
+        <div className={`cellWithStatus`}>
+          {params.row.nameOfTheRequester +
+            " " +
+            params.row.surnameOfTheRequester}
+        </div>
+      );
+    },
+  },
+  {
+    field: "dateOfRequest",
+    headerName: "Date",
+    width: 160,
+  },
+  {
+    field: "advanceAmount",
+    headerName: "Price",
+    width: 150,
+  },
+  {
+    field: "currency",
+    headerName: "Currency",
+    width: 120,
+  },
+
+  {
+    field: "approvalStatus",
+    headerName: "Status",
+    width: 180,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.approvalStatus}`}>
+          {params.row.approvalStatus}
         </div>
       );
     },

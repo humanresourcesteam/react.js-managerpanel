@@ -42,13 +42,17 @@
     padding: 5px;
     border-radius: 5px;
 
-    &.pending {
+    &.PENDING_APPROVAL {
       background-color: rgba(255, 217, 0, 0.05);
       color: goldenrod;
     }
-    &.passive {
+    &.REJECTED {
       background-color: rgba(255, 0, 0, 0.05);
       color: crimson;
+    }
+    &.APPROVED {
+      background-color: rgba(255, 0, 0, 0.05);
+      color: green;
     }
   }
 

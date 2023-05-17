@@ -1,31 +1,35 @@
 import "./dataauth.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../dataPermission";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import { useState, useEffect } from "react";
+import ManagerService from "../../service/ManagerService";
+import Cookies from "js-cookie";
+import PermissionService from "../../service/PermissionService";
+import Select from "react-select";
+
 const DataAuthorisation = () => {
   const [data, setData] = useState(userRows);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [manager, setManager] = useState({});
+  const token = Cookies.get("token");
+  const [myState, setMyState] = useState({
+    id: "",
+    status: "",
+  });
 
-  const [advance, setAdvance] = useState([
-    {
-      id: "",
-      name: "",
-      surname: "",
-      employeeid: "",
-      managerid: "",
-      requestDate: "",
-      status: "",
-      amount: "",
-      exchange: "",
-      requestType: "",
-      desc: "",
-      replyDate: "",
-      approval: "",
-    },
-  ]);
+  useEffect(() => {
+    ManagerService.getInfoForAdmin(token).then((response) => {
+      setManager({ ...manager, ...response.data });
+    });
+  }, []);
+
+  useEffect(() => {
+    PermissionService.getPermissionForWorker(manager.id).then((response) => {
+      setData([...response.data]);
+    });
+  }, [manager]);
+
   const actionColumn = [
     {
       field: "action",
@@ -38,7 +42,7 @@ const DataAuthorisation = () => {
               className="viewButton"
               onClick={() => {
                 setSelectedItem(params.row);
-                setShowDetails(true); // Add this line
+                setShowDetails(true);
               }}
             >
               View
@@ -49,9 +53,16 @@ const DataAuthorisation = () => {
     },
   ];
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    PermissionService.updatePermission(myState).then((response) => {
+      console.log(response);
+    });
+  };
   const options = [
-    { value: "Accept", label: "Acceptance", color: "green" },
-    { value: "Okey", label: "Red", color: "red" },
+    { value: "APPROVED", label: "Approved" },
+    { value: "REJECTED", label: "Rejected" },
   ];
 
   return (
@@ -60,75 +71,119 @@ const DataAuthorisation = () => {
         className="datagrid"
         rows={data}
         columns={userColumns.concat(actionColumn)}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 7,
-            },
-          },
-        }}
-        pageSizeOptions={[7]}
-        rowHeight={100}
+        pageSize={5}
       />
       {showDetails && (
         <div className="advanceDetail">
           <h4>Permission Details</h4>
-          <form className="backAdvance">
+          <form className="backAdvance" onSubmit={handleSubmit}>
             <div className="formInput">
               <label>Employee Name</label>
               <input
                 type="text"
-                value={selectedItem ? selectedItem.email : ""}
+                value={selectedItem ? selectedItem.name : ""}
                 disabled
               />
             </div>
             <div className="formInput">
               <label>Expense Type</label>
-              <input type="text" value={"Travel"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.typeOfPermit : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Date of Request</label>
-              <input type="text" value={"121"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.dateOfRequest : ""}
+                disabled
+              />
+            </div>
+            <div className="formInput">
+              <label>Reply Date</label>
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.replyDate : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Status</label>
-              <input type="text" value={"121"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.approvalStatus : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Start Date</label>
-              <input type="date" value={121} disabled />
+              <input
+                type="date"
+                value={selectedItem ? selectedItem.startDate : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>End Date</label>
-              <input type="date" value={"Dolar $"} disabled />
+              <input
+                type="date"
+                value={selectedItem ? selectedItem.endDate : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Days</label>
-              <input type="number" value={5} disabled />
+              <input
+                type="number"
+                value={selectedItem ? selectedItem.numberOfDays : ""}
+                disabled
+              />
             </div>
 
             {selectedItem && (
               <div className="formInput">
                 <label htmlFor="">
-                  {selectedItem.status === "passive"
+                  {selectedItem.approvalStatus === "passive"
                     ? "Date of Approval"
                     : "Approval Process"}
                 </label>
-                {selectedItem.status === "passive" ? (
-                  <input type="text" value={selectedItem.status} disabled />
+
+                {selectedItem.approvalStatus === "APPROVED" ||
+                selectedItem.approvalStatus === "REJECTED" ? (
+                  <input
+                    type="text"
+                    value={selectedItem.approvalStatus}
+                    disabled
+                  />
                 ) : (
-                  <select defaultValue={"Okey"}>
-                    <option value="Accept" className="accept">
-                      Acceptance
+                  <select
+                    defaultValue={selectedItem.approvalStatus}
+                    onChange={(e) =>
+                      setMyState({
+                        ...myState,
+                        status: e.target.value,
+                        id: selectedItem.id,
+                      })
+                    }
+                  >
+                    <option value="APPROVED" className="accept">
+                      Approved
                     </option>
-                    <option value="Okey">Red</option>
+                    <option value="REJECTED">Rejected</option>
                   </select>
                 )}
               </div>
             )}
-            {selectedItem && selectedItem.status !== "passive" && (
-              <button className="advanceButton">Apply</button>
-            )}
+            {selectedItem &&
+              !["APPROVED", "REJECTED"].includes(
+                selectedItem.approvalStatus
+              ) && (
+                <button type="submit" className="advanceButton">
+                  Apply
+                </button>
+              )}
           </form>
         </div>
       )}

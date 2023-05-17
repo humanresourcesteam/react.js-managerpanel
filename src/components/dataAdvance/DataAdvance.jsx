@@ -2,29 +2,32 @@ import "./data.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../dataAdvance";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import Cookies from "js-cookie";
+import AdvanceService from "../../service/AdvanceService";
+import { useState, useEffect } from "react";
+import ManagerService from "../../service/ManagerService";
 const DataAdvance = () => {
   const [data, setData] = useState(userRows);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [manager, setManager] = useState({});
+  const token = Cookies.get("token");
+  const [myState, setMyState] = useState({
+    id: "",
+    status: "",
+  });
+  useEffect(() => {
+    ManagerService.getInfoForAdmin(token).then((response) => {
+      setManager({ ...manager, ...response.data });
+    });
+  }, []);
 
-  const [advance, setAdvance] = useState([
-    {
-      id: "",
-      name: "",
-      surname: "",
-      employeeid: "",
-      managerid: "",
-      requestDate: "",
-      status: "",
-      amount: "",
-      exchange: "",
-      requestType: "",
-      desc: "",
-      replyDate: "",
-      approval: "",
-    },
-  ]);
+  useEffect(() => {
+    AdvanceService.getAllAdvances(manager.id).then((response) => {
+      setData([...response.data]);
+    });
+  }, [manager]);
+
   const actionColumn = [
     {
       field: "action",
@@ -37,7 +40,7 @@ const DataAdvance = () => {
               className="viewButton"
               onClick={() => {
                 setSelectedItem(params.row);
-                setShowDetails(true); // Add this line
+                setShowDetails(true);
               }}
             >
               View
@@ -48,10 +51,18 @@ const DataAdvance = () => {
     },
   ];
 
-  const options = [
-    { value: "Accept", label: "Acceptance", color: "green" },
-    { value: "Okey", label: "Red", color: "red" },
-  ];
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(myState);
+    AdvanceService.updateAdvanceStatus(myState).then(
+      () => {
+        alert("başarılı");
+      },
+      () => {
+        alert("başarısız");
+      }
+    );
+  };
 
   return (
     <div className="datatablee">
@@ -72,55 +83,111 @@ const DataAdvance = () => {
       {showDetails && (
         <div className="advanceDetail">
           <h4>Advance Details</h4>
-          <form className="backAdvance">
+          <form className="backAdvance" onSubmit={handleSubmit}>
             <div className="formInput">
               <label>Employee Name</label>
               <input
                 type="text"
-                value={selectedItem ? selectedItem.email : ""}
+                value={
+                  selectedItem
+                    ? selectedItem.nameOfTheRequester +
+                      " " +
+                      selectedItem.surnameOfTheRequester
+                    : ""
+                }
                 disabled
               />
             </div>
             <div className="formInput">
               <label>Date of Request</label>
-              <input type="text" value={"121"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.dateOfRequest : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Status</label>
-              <input type="text" value={"121"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.approvalStatus : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Amount</label>
-              <input type="number" value={121} disabled />
+              <input
+                type="number"
+                value={selectedItem ? selectedItem.advanceAmount : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Exchange</label>
-              <input type="text" value={"Dolar $"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.currency : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Request Type</label>
-              <input type="text" value={"Travel"} disabled />
+              <input
+                type="text"
+                value={selectedItem ? selectedItem.advanceRequestType : ""}
+                disabled
+              />
             </div>
             <div className="formInput">
               <label>Description</label>
-              <textarea type="text" value={"For work"} disabled />
+              <textarea
+                type="text"
+                value={selectedItem ? selectedItem.description : ""}
+                disabled
+              />
             </div>
-            <div className="formInput">
-              <label>Description</label>
-              <textarea type="text" value={"For work"} disabled />
-            </div>
-            <div className="formInput">
-              <label htmlFor="">Approval Process</label>
-              <select defaultValue={"Okey"}>
-                <option value="Accept" className="accept">
-                  Acceptance
-                </option>
-                <option value="Okey">Red</option>
-              </select>
-            </div>
-            {selectedItem && selectedItem.status !== "passive" && (
-              <button className="advanceButton">Apply</button>
+            {selectedItem && (
+              <div className="formInput">
+                <label htmlFor="">
+                  {selectedItem.approvalStatus === "passive"
+                    ? "Date of Approval"
+                    : "Approval Process"}
+                </label>
+
+                {selectedItem.approvalStatus === "APPROVED" ||
+                selectedItem.approvalStatus === "REJECTED" ? (
+                  <input
+                    type="text"
+                    value={selectedItem.approvalStatus}
+                    disabled
+                  />
+                ) : (
+                  <select
+                    defaultValue={selectedItem.approvalStatus}
+                    onChange={(e) =>
+                      setMyState({
+                        ...myState,
+                        status: e.target.value,
+                        id: selectedItem.id,
+                      })
+                    }
+                  >
+                    <option value="APPROVED" className="accept">
+                      Approved
+                    </option>
+                    <option value="REJECTED">Rejected</option>
+                  </select>
+                )}
+              </div>
             )}
+            {selectedItem &&
+              !["APPROVED", "REJECTED"].includes(
+                selectedItem.approvalStatus
+              ) && (
+                <button type="submit" className="advanceButton">
+                  Apply
+                </button>
+              )}
           </form>
         </div>
       )}
