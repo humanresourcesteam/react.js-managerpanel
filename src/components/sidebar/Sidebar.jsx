@@ -24,7 +24,6 @@ const Sidebar = () => {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    // Axios için iptal tokeni oluştur
     const source = axios.CancelToken.source();
 
     ManagerService.getImage(token, { cancelToken: source.token })
@@ -40,7 +39,6 @@ const Sidebar = () => {
         }
       });
 
-    // useEffect temizleme fonksiyonu
     return () => {
       source.cancel();
     };
