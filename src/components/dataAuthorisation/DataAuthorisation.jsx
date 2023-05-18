@@ -6,7 +6,8 @@ import ManagerService from "../../service/ManagerService";
 import Cookies from "js-cookie";
 import PermissionService from "../../service/PermissionService";
 import Select from "react-select";
-
+import withAuth from "../../withAuth";
+import axios from "axios";
 const DataAuthorisation = () => {
   const [data, setData] = useState(userRows);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -17,17 +18,56 @@ const DataAuthorisation = () => {
     id: "",
     status: "",
   });
+  const source = axios.CancelToken.source();
 
   useEffect(() => {
-    ManagerService.getInfoForAdmin(token).then((response) => {
-      setManager({ ...manager, ...response.data });
-    });
+    const fetchInfo = async () => {
+      try {
+        const response = await ManagerService.getInfoForAdmin(token, {
+          cancelToken: source.token,
+        });
+        setManager({ ...manager, ...response.data });
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          // handle error
+          console.log(error);
+        }
+      }
+    };
+
+    fetchInfo();
+    return () => {
+      source.cancel("Operation canceled by the user.");
+    };
   }, []);
 
   useEffect(() => {
-    PermissionService.getPermissionForWorker(manager.id).then((response) => {
-      setData([...response.data]);
-    });
+    const fetchPermissions = async () => {
+      try {
+        const response = await PermissionService.getPermissionForWorker(
+          manager.id,
+          { cancelToken: source.token }
+        );
+        setData([...response.data]);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          // handle error
+          console.log(error);
+        }
+      }
+    };
+
+    if (manager.id) {
+      fetchPermissions();
+    }
+
+    return () => {
+      source.cancel("Operation canceled by the user.");
+    };
   }, [manager]);
 
   const actionColumn = [
@@ -60,10 +100,6 @@ const DataAuthorisation = () => {
       console.log(response);
     });
   };
-  const options = [
-    { value: "APPROVED", label: "Approved" },
-    { value: "REJECTED", label: "Rejected" },
-  ];
 
   return (
     <div className="datatablee">
@@ -191,4 +227,4 @@ const DataAuthorisation = () => {
   );
 };
 
-export default DataAuthorisation;
+export default withAuth(DataAuthorisation);

@@ -2,7 +2,7 @@ import DataExpense from "../../components/dataExpense/DataExpense";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./expence.scss";
-
+import withAuth from "../../withAuth";
 const ExpenceList = () => {
   return (
     <div className="expence">
@@ -15,4 +15,4 @@ const ExpenceList = () => {
   );
 };
 
-export default ExpenceList;
+export default withAuth(ExpenceList);

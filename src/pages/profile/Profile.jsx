@@ -6,17 +6,36 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import withAuth from "../../withAuth";
 import CompanyService from "../../service/CompanyService";
+import axios from "axios";
 const Profile = () => {
   const [manager, setManager] = useState({});
   const [managerFormData, setManagerFormData] = useState({});
   const token = Cookies.get("token");
+  const source = axios.CancelToken.source();
 
   useEffect(() => {
-    ManagerService.getInfoForAdmin(token).then((response) => {
-      console.log(response);
-      setManager({ ...response.data });
-      setManagerFormData({ ...response.data });
-    });
+    const fetchInfo = async () => {
+      try {
+        const response = await ManagerService.getInfoForAdmin(token, {
+          cancelToken: source.token,
+        });
+        console.log(response);
+        setManager({ ...response.data });
+        setManagerFormData({ ...response.data });
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          // handle error
+          console.log(error);
+        }
+      }
+    };
+
+    fetchInfo();
+    return () => {
+      source.cancel("Operation canceled by the user.");
+    };
   }, []);
 
   const handleInputChange = (e) => {

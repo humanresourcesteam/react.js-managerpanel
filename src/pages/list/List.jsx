@@ -2,6 +2,7 @@ import "./list.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Datatable from "../../components/datatable/Datatable";
+import withAuth from "../../withAuth";
 const List = () => {
   return (
     <div className="list">
@@ -14,4 +15,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default withAuth(List);

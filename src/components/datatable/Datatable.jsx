@@ -6,6 +6,7 @@ import ManagerService from "../../service/ManagerService";
 import WorkerService from "../../service/WorkerService";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import withAuth from "../../withAuth";
 const Datatable = () => {
   const [id, setId] = useState("");
   const [managerid, setManagerid] = useState("");

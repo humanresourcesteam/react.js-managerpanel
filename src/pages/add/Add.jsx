@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import ManagerService from "../../service/ManagerService";
 import WorkerService from "../../service/WorkerService";
 import { useNavigate } from "react-router-dom";
+import withAuth from "../../withAuth";
 const Add = () => {
   const [managerid, setManagerid] = useState("");
   const [companyid, setCompanyid] = useState("");
@@ -249,4 +250,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default withAuth(Add);

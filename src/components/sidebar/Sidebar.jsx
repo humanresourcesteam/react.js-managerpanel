@@ -17,13 +17,33 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import Logout from "../logout/Logout";
+import withAuth from "../../withAuth";
+import axios from "axios";
 const Sidebar = () => {
   const token = Cookies.get("token");
   const [image, setImage] = useState("");
+
   useEffect(() => {
-    ManagerService.getImage(token).then((response) => {
-      setImage(response.data);
-    });
+    // Axios için iptal tokeni oluştur
+    const source = axios.CancelToken.source();
+
+    ManagerService.getImage(token, { cancelToken: source.token })
+      .then((response) => {
+        setImage(response.data);
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          // istek iptal edildiyse, hata oluştuğunu kontrol eder
+          console.log("Axios request cancelled");
+        } else {
+          console.log("Another error happened: ", error.message);
+        }
+      });
+
+    // useEffect temizleme fonksiyonu
+    return () => {
+      source.cancel();
+    };
   }, [token]);
 
   return (
@@ -80,14 +100,14 @@ const Sidebar = () => {
             </Link>
             <Link to="/expence" style={{ textDecoration: "none" }}>
               <div className="list__item">
-                <FormatListBulletedOutlinedIcon className="icon" />
+                <FormatListNumberedIcon className="icon" />
                 <span>Expense List</span>
               </div>
             </Link>
             <Link to="/permi" style={{ textDecoration: "none" }}>
               <div className="list__item">
-                <FactCheckOutlinedIcon className="icon" />
-                <span>Authorisation List</span>
+                <FormatListNumberedIcon className="icon" />
+                <span>Permission List</span>
               </div>
             </Link>
           </div>
@@ -142,4 +162,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default withAuth(Sidebar);

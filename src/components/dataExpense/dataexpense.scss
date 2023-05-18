@@ -114,15 +114,19 @@ select {
   font-weight: 600;
 }
 
-.pdf {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .pdf-form {
   display: flex;
-  flex-direction: column;
   gap: 1px;
   margin-top: 5px;
+}
+.formInputImage {
+  display: flex;
+  flex-direction: column;
+}
+.icon-image {
+  width: 50px;
+  height: 50px;
+}
+.achive {
+  display: flex;
 }

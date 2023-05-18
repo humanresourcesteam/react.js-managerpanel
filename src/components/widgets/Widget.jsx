@@ -4,6 +4,7 @@ import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import AccessibilityNewOutlinedIcon from "@mui/icons-material/AccessibilityNewOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import { useState } from "react";
+import withAuth from "../../withAuth";
 const Widget = ({ type }) => {
   const [adminCount, setAdminCount] = useState(0);
   const [managerCount, setManagerCount] = useState(0);
@@ -94,4 +95,4 @@ const Widget = ({ type }) => {
   );
 };
 
-export default Widget;
+export default withAuth(Widget);

@@ -2,7 +2,7 @@ import DataAdvance from "../../components/dataAdvance/DataAdvance";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./advance.scss";
-
+import withAuth from "../../withAuth";
 const AdvanceList = () => {
   return (
     <div className="advance">
@@ -15,4 +15,4 @@ const AdvanceList = () => {
   );
 };
 
-export default AdvanceList;
+export default withAuth(AdvanceList);

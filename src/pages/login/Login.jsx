@@ -24,6 +24,7 @@ const Login = () => {
     AuthService.login(admin).then(
       (response) => {
         Cookies.set("token", response.data.token);
+        Cookies.set("erole", response.data.erole);
         window.location.replace("/");
       },
       () => {

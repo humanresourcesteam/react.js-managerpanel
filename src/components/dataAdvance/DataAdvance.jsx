@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 import AdvanceService from "../../service/AdvanceService";
 import { useState, useEffect } from "react";
 import ManagerService from "../../service/ManagerService";
+import withAuth from "../../withAuth";
+import axios from "axios";
 const DataAdvance = () => {
   const [data, setData] = useState(userRows);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -16,16 +18,55 @@ const DataAdvance = () => {
     id: "",
     status: "",
   });
+  const source = axios.CancelToken.source();
+
   useEffect(() => {
-    ManagerService.getInfoForAdmin(token).then((response) => {
-      setManager({ ...manager, ...response.data });
-    });
+    const fetchInfo = async () => {
+      try {
+        const response = await ManagerService.getInfoForAdmin(token, {
+          cancelToken: source.token,
+        });
+        setManager({ ...manager, ...response.data });
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          // handle error
+          console.log(error);
+        }
+      }
+    };
+
+    fetchInfo();
+    return () => {
+      source.cancel("Operation canceled by the user.");
+    };
   }, []);
 
   useEffect(() => {
-    AdvanceService.getAllAdvances(manager.id).then((response) => {
-      setData([...response.data]);
-    });
+    const fetchAdvances = async () => {
+      try {
+        const response = await AdvanceService.getAllAdvances(manager.id, {
+          cancelToken: source.token,
+        });
+        setData([...response.data]);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          // handle error
+          console.log(error);
+        }
+      }
+    };
+
+    if (manager.id) {
+      fetchAdvances();
+    }
+
+    return () => {
+      source.cancel("Operation canceled by the user.");
+    };
   }, [manager]);
 
   const actionColumn = [
@@ -195,4 +236,4 @@ const DataAdvance = () => {
   );
 };
 
-export default DataAdvance;
+export default withAuth(DataAdvance);

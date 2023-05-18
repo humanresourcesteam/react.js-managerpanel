@@ -4,6 +4,7 @@ import "./single.scss";
 import { useParams } from "react-router-dom";
 import WorkerService from "../../service/WorkerService";
 import { useState, useEffect } from "react";
+import withAuth from "../../withAuth";
 const Single = () => {
   let params = useParams();
   const [worker, setWorker] = useState({});
@@ -82,4 +83,4 @@ const Single = () => {
   );
 };
 
-export default Single;
+export default withAuth(Single);

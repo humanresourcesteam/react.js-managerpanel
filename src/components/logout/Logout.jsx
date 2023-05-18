@@ -8,6 +8,7 @@ function Logout() {
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("erole");
     history("/login");
   };
 

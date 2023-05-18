@@ -3,6 +3,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import withAuth from "../../withAuth";
 const NewEmployee = () => {
   const [widgetmanager, setWidgetmanager] = useState([
     {
@@ -56,4 +57,4 @@ const NewEmployee = () => {
   );
 };
 
-export default NewEmployee;
+export default withAuth(NewEmployee);
