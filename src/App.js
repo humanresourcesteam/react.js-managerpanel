@@ -8,6 +8,7 @@ import Single from "./pages/single/Single";
 import AdvanceList from "./pages/advancelist/AdvanceList";
 import ExpenceList from "./pages/expenselist/ExpenceList";
 import Permission from "./pages/permission/Permission";
+import Forgot from "./pages/forgot/Forgot";
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,7 @@ function App() {
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
+            <Route path="forgot" element={<Forgot />} />
             <Route path="profile">
               <Route index element={<Profile />} />
             </Route>

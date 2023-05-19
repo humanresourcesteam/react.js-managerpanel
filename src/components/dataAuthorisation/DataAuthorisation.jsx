@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import ManagerService from "../../service/ManagerService";
 import Cookies from "js-cookie";
 import PermissionService from "../../service/PermissionService";
-import Select from "react-select";
+import  Select  from "react-select";
 import withAuth from "../../withAuth";
 import axios from "axios";
 const DataAuthorisation = () => {
