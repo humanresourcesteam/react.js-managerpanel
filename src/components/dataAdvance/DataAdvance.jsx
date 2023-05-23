@@ -9,7 +9,7 @@ import ManagerService from "../../service/ManagerService";
 import withAuth from "../../withAuth";
 import axios from "axios";
 const DataAdvance = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [manager, setManager] = useState({});
@@ -26,6 +26,7 @@ const DataAdvance = () => {
         const response = await ManagerService.getInfoForAdmin(token, {
           cancelToken: source.token,
         });
+
         setManager({ ...manager, ...response.data });
       } catch (error) {
         if (axios.isCancel(error)) {

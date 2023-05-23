@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import ManagerService from "../../service/ManagerService";
 import Cookies from "js-cookie";
 import PermissionService from "../../service/PermissionService";
-import  Select  from "react-select";
+import Select from "react-select";
 import withAuth from "../../withAuth";
 import axios from "axios";
 const DataAuthorisation = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [manager, setManager] = useState({});
@@ -26,6 +26,7 @@ const DataAuthorisation = () => {
         const response = await ManagerService.getInfoForAdmin(token, {
           cancelToken: source.token,
         });
+
         setManager({ ...manager, ...response.data });
       } catch (error) {
         if (axios.isCancel(error)) {
