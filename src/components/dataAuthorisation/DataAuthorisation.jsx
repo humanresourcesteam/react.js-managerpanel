@@ -97,9 +97,14 @@ const DataAuthorisation = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    PermissionService.updatePermission(myState).then((response) => {
-      console.log(response);
-    });
+    PermissionService.updatePermission(myState).then(
+      () => {
+        window.location.replace("/permi");
+      },
+      () => {
+        alert("again");
+      }
+    );
   };
 
   return (
@@ -196,15 +201,18 @@ const DataAuthorisation = () => {
                   />
                 ) : (
                   <select
-                    defaultValue={selectedItem.approvalStatus}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log("Value after select: ", e.target.value);
                       setMyState({
                         ...myState,
                         status: e.target.value,
                         id: selectedItem.id,
-                      })
-                    }
+                      });
+                    }}
                   >
+                    <option value="" disabled selected>
+                      Select Option For Permission
+                    </option>
                     <option value="APPROVED" className="accept">
                       Approved
                     </option>

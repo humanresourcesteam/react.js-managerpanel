@@ -99,6 +99,7 @@ const DataAdvance = () => {
     AdvanceService.updateAdvanceStatus(myState).then(
       () => {
         alert("başarılı");
+        window.location.replace("/advance");
       },
       () => {
         alert("başarısız");
@@ -205,15 +206,18 @@ const DataAdvance = () => {
                   />
                 ) : (
                   <select
-                    defaultValue={selectedItem.approvalStatus}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log("Value after select: ", e.target.value);
                       setMyState({
                         ...myState,
                         status: e.target.value,
                         id: selectedItem.id,
-                      })
-                    }
+                      });
+                    }}
                   >
+                    <option value="" disabled selected>
+                      Select Option For Advance
+                    </option>
                     <option value="APPROVED" className="accept">
                       Approved
                     </option>

@@ -103,6 +103,7 @@ const DataExpense = () => {
     ExpenceService.update(myState).then(
       () => {
         alert("başarılı");
+        window.location.replace("/expence");
       },
       () => {
         alert("başarısız");
@@ -229,15 +230,18 @@ const DataExpense = () => {
                   />
                 ) : (
                   <select
-                    defaultValue={selectedItem.approvalStatus}
-                    onChange={(e) =>
-                      setMyState((prevState) => ({
-                        ...prevState,
+                    onChange={(e) => {
+                      console.log("Value after select: ", e.target.value);
+                      setMyState({
+                        ...myState,
                         status: e.target.value,
                         id: selectedItem.id,
-                      }))
-                    }
+                      });
+                    }}
                   >
+                    <option value="" disabled selected>
+                      Select Option For Expense
+                    </option>
                     <option value="APPROVED" className="accept">
                       Approved
                     </option>

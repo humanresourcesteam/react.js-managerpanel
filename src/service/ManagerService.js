@@ -1,22 +1,19 @@
 import axios from "axios";
 
 const GET_ALL_MANAGER_SUMMARY_INFO =
-  "http://localhost:9092/api/v1/manager/get-all-summary";
+  "http://34.173.89.16/manager/get-all-summary";
 
-const GET_INFO_MANAGER_WITH_ID =
-  "http://localhost:9092/api/v1/manager/manager/";
+const GET_INFO_MANAGER_WITH_ID = "http://34.173.89.16/manager/manager/";
 
-const ADD_MANAGER = "http://localhost:9092/api/v1/manager/add";
+const ADD_MANAGER = "http://34.173.89.16/manager/add";
 
-const GET_IMAGE_FOR_ADMIN =
-  "http://localhost:9092/api/v1/manager/get-image?token=";
+const GET_IMAGE_FOR_ADMIN = "http://34.173.89.16/manager/get-image?token=";
 
-const GET_5_MANAGER = "http://localhost:9092/api/v1/manager/find-five-manager";
+const GET_5_MANAGER = "http://34.173.89.16/manager/find-five-manager";
 
-const GET_ID = "http://localhost:9092/api/v1/manager/get-id?token=";
+const GET_ID = "http://34.173.89.16/manager/get-id?token=";
 
-const GET_INFO_FOR_ADMIN =
-  "http://localhost:9092/api/v1/manager/manager-info?token=";
+const GET_INFO_FOR_ADMIN = "http://34.173.89.16/manager/manager-info?token=";
 class ManagerService {
   getAllAdminSummaryInfo() {
     return axios.get(GET_ALL_MANAGER_SUMMARY_INFO);

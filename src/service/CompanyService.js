@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const GET_COMPANY_NAME_FOR_MANAGER =
-  "http://localhost:9094/api/v1/company/company-info-for-admin/";
+  "http://34.173.89.16/company/company-info-for-admin/";
 
 class CompanyService {
   getCompanyName(companyId) {

@@ -22,9 +22,9 @@ const Home = () => {
         </div>
 
         <div className="circ">
-          <div className="circ_left">
+          {/* <div className="circ_left">
             <NewEmployee />
-          </div>
+          </div> */}
           <div className="circ_right">
             <BarCharts />
             <BarCharts />

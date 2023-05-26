@@ -18,7 +18,7 @@ const NewEmployee = () => {
     console.log("useEffect runs");
 
     axios
-      .get("http://localhost:9093/api/v1/workers/get-new-employee")
+      .get("http://34.173.89.16/workers/get-new-employee")
       .then((response) => {
         setWidgetmanager([...response.data]);
       });

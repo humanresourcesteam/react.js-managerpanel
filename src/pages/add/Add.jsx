@@ -48,9 +48,11 @@ const Add = () => {
     email: "",
     address: "",
     companyPhone: "",
+    salary: "",
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     console.log(employee);
     WorkerService.addEmployee(employee).then(
       () => {
@@ -58,7 +60,11 @@ const Add = () => {
         navigate("/employee");
       },
       (response) => {
-        alert(response.response.data.message);
+        if (response.response.status === 405) {
+          window.location.replace("/");
+        } else {
+          alert(response.response.data.message);
+        }
       }
     );
   };
@@ -217,6 +223,15 @@ const Add = () => {
                     type="text"
                     onChange={(e) =>
                       setEmployee({ ...employee, address: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="formInput">
+                  <label>Salary</label>
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setEmployee({ ...employee, salary: e.target.value })
                     }
                   />
                 </div>
