@@ -26,7 +26,7 @@ const Home = () => {
             <NewEmployee />
           </div> */}
           <div className="circ_right">
-            <BarCharts />
+            <NewEmployee />
             <BarCharts />
           </div>
         </div>

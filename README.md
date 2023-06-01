@@ -1,70 +1,180 @@
-# Getting Started with Create React App
+# Human Resources Management Manager Panel
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In our HRM project, we have a manager panel that allows the manager to add and list employees, view, approve or reject employees' expense, leave, and advance requests, as well as edit their own profile.
 
-## Available Scripts
+![Screenshot_8](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/ff6cdf7c-852e-4e3b-a463-c8c40ffc1dba)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Inbox
+- Mail service
+- Notification
+- Worker Add Pages Update
+- Worker validation change
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Install project with npm
 
-### `npm test`
+```bash
+  git clone https://github.com/humanresourcesteam/react.js-managerpanel.git
+  cd my-project
+  npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Run Locally
 
-### `npm run build`
+Clone the project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+  git clone https://github.com/humanresourcesteam/react.js-managerpanel.git
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Go to the project directory
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+  cd my-project
+```
 
-### `npm run eject`
+Install dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+  npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Start the server
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+  npm run start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Run Docker
 
-## Learn More
+Clone the project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+  docker push aliogutcen/my-react-manager:20
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Running on Docker
 
-### Code Splitting
+```bash
+  docker build -t <my-react-manager> .
+  docker run -p 3000:3000 <my-react-manager>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Usage/Examples
 
-### Analyzing the Bundle Size
+```javascript
+import "./datatable.scss";
+import { managerColumns, managerRows } from "../../datatablesoruce";
+import { DataGrid, GridColumnHeaderFilterIconButton } from "@mui/x-data-grid";
+import { useState, useEffect } from "react";
+import ManagerService from "../../service/ManagerService";
+import WorkerService from "../../service/WorkerService";
+import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
+import withAuth from "../../withAuth";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const Datatable = () => {
+  const [id, setId] = useState("");
+  const [managerid, setManagerid] = useState("");
+  const [companyid, setCompanyid] = useState("");
+  const token = Cookies.get("token");
+  const [worker, setWorker] = useState([]);
 
-### Making a Progressive Web App
+  useEffect(() => {
+    ManagerService.getInfoForAdmin(token).then((response) => {
+      setCompanyid(response.data.companyid);
+      setManagerid(response.data.id);
+    });
+  }, []);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  useEffect(() => {
+    if (companyid) {
+      WorkerService.getAllWorker(companyid).then((response) => {
+        console.log(response);
+        setWorker(response.data);
+      });
+    }
+  }, [companyid]);
 
-### Advanced Configuration
+  const actionColumn = [
+    {
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            <div className="view">
+              <Link
+                className="links"
+                to={"/employee/" + params.row.id}
+                style={{ textDecoration: "none" }}
+              >
+                <span>View Profile</span>
+              </Link>
+            </div>
+          </div>
+        );
+      },
+    },
+  ];
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  return (
+    <div className="datatable">
+      <div className="dataTableTitle">
+        <Link to="/employee/add" className="link">
+          Add new employee
+        </Link>
+      </div>
+      <DataGrid
+        style={{ fontWeight: "600" }}
+        className="datagrid"
+        rows={worker}
+        columns={managerColumns.concat(actionColumn)}
+        rowHeight={100}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 7,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+      />
+    </div>
+  );
+};
 
-### Deployment
+export default Datatable;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Screenshot
 
-### `npm run build` fails to minify
+![Screenshot_7](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/4132bbb3-7067-4453-9a5b-06319b9b0809)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![Screenshot_1](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/6cac9ad2-67ab-45dc-9d5d-4d6bb596fe74)
+
+![Screenshot_2](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/d2e89cc2-c81b-44c7-9c36-01b44d07e8eb)
+
+![Screenshot_3](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/8e94e9ad-584b-4137-804f-11079b28c265)
+
+![Screenshot_4](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/c62fa4fd-992b-40b2-9a69-eb020fac5a0f)
+
+![Screenshot_5](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/1c0fcd9f-8d86-475e-b713-874ca2f72543)
+
+![Screenshot_6](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/d337c2c7-3613-4ab1-bde3-e1ebb200652b)
+
+![Screenshot_9](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/f718c49a-7b13-4ce7-952c-f9b8341b10de)
+
+![Screenshot_10](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/dcac02ef-4153-4a95-8546-4f7cff09af49)
+
+![Screenshot_11](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/61c5e73e-8b21-4449-a53b-fa1a34391c4b)
+
+![Screenshot_12](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/58422541-194d-4f29-982e-7026c91b7259)
+
+![Screenshot_13](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/96de8fd0-3163-4754-98e4-4d6f7861e39b)
+
+![Screenshot_14](https://github.com/humanresourcesteam/react.js-managerpanel/assets/85200452/9b6feb2d-7770-4a78-b690-78bbb1bc40cb)

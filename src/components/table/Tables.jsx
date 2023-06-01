@@ -62,7 +62,7 @@ const List = () => {
         <TableHead>
           <TableRow>
             <TableCell className="tableCell">ID</TableCell>
-            <TableCell className="tableCell">Image</TableCell>
+
             <TableCell className="tableCell">Firstname</TableCell>
             <TableCell className="tableCell">Surname</TableCell>
             <TableCell className="tableCell">Email</TableCell>
@@ -74,9 +74,7 @@ const List = () => {
           {rows.map((row) => (
             <TableRow key={row.id}>
               <TableCell className="tableCell">{row.id}</TableCell>
-              <TableCell className="tableCell">
-                <img src={row.img} alt="" width="40" height="40" />
-              </TableCell>
+
               <TableCell className="tableCell">{row.firtName}</TableCell>
               <TableCell className="tableCell">{row.surname}</TableCell>
               <TableCell className="tableCell">{row.email}</TableCell>

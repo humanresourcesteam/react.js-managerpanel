@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const GET_ALL_EXPENSE = "http://34.173.89.16/expense/managers/";
-const UPDATE_EXPENSE_STATUS = "http://34.173.89.16/expense/update";
+const GET_ALL_EXPENSE = "http://localhost/expense/managers/";
+const UPDATE_EXPENSE_STATUS = "http://localhost/expense/update";
 class ExpenseService {
   getallexpense(managerid) {
     return axios.get(GET_ALL_EXPENSE + managerid);

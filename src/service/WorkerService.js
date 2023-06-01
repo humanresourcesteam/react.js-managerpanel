@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const GET_INFO_FOR_ADMIN = "http://34.173.89.16/manager/manager-info?token=";
+const GET_INFO_FOR_ADMIN = "http://localhost/manager/manager-info?token=";
 
-const ADD_EMPLOYEE = "http://34.173.89.16/workers/addworker";
+const ADD_EMPLOYEE = "http://localhost/workers/addworker";
 
 const GET_ALL_EMPLOYEE_FOR_COMPANY =
-  "http://34.173.89.16/workers/get-all-employee-for-company/";
+  "http://localhost/workers/get-all-employee-for-company/";
 
-const GET_WORKER_INFO = "http://34.173.89.16/workers/workers/";
+const GET_WORKER_INFO = "http://localhost/workers/workers/";
 class WorkerService {
   addEmployee(data) {
     return axios.post(ADD_EMPLOYEE, data, {

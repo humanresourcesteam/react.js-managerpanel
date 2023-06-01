@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const GET_ALL_ADVANCES = "http://34.173.89.16/advance/managers/";
-const UPDATE_ADVANCE_STATUS = "http://34.173.89.16/advance/update";
+const GET_ALL_ADVANCES = "http://localhost/advance/managers/";
+const UPDATE_ADVANCE_STATUS = "http://localhost/advance/update";
 
 class AdvanceService {
   getAllAdvances(managerid) {

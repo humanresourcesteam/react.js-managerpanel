@@ -14,16 +14,18 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "Developer", users: 200 },
-  { name: "Staff", users: 150 },
-  { name: "Cleaner", users: 100 },
+  { name: "Developer", users: 20 },
+  { name: "Staff", users: 15 },
+  { name: "Cleaner", users: 10 },
   { name: "Designer", users: 50 },
-  { name: "Backend Dev", users: 500 },
+  { name: "Backend Dev", users: 50 },
+  { name: "UI", users: 10 },
+  { name: "UX", users: 12 },
 ];
 export default function BarCharts() {
   return (
     <div style={{ width: "100%", height: 400 }} className="bar">
-      <span>Female to Male ratio</span>
+      <span>Jobs List</span>
       <ResponsiveContainer>
         <BarChart
           width={500}

@@ -15,7 +15,7 @@ const Widget = ({ type }) => {
       data = {
         title: "TOTAL EMPLOYEE",
         link: "See all manager",
-        count: managerCount,
+        count: 22,
         icon: (
           <ManageAccountsOutlinedIcon
             className="icon"
@@ -29,7 +29,7 @@ const Widget = ({ type }) => {
       data = {
         title: "RETIRED EMPLOYEE",
         link: "See all employee",
-        count: 0,
+        count: 20,
         icon: (
           <BadgeOutlinedIcon
             className="icon"
@@ -45,7 +45,7 @@ const Widget = ({ type }) => {
       data = {
         title: "LAIK EMPLOYEE",
         link: "See all employee",
-        count: 0,
+        count: 10,
         icon: (
           <BadgeOutlinedIcon
             className="icon"
@@ -61,7 +61,7 @@ const Widget = ({ type }) => {
       data = {
         title: "ACTIVE EMPLOYEE",
         link: "See all total company",
-        count: companyCount,
+        count: 15,
         icon: (
           <AccessibilityNewOutlinedIcon
             className="icon"

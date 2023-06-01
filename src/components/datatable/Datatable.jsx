@@ -48,12 +48,6 @@ const Datatable = () => {
                 <span>View Profile</span>
               </Link>
             </div>
-            {/* <div className="delete">
-              <DeleteOutlineOutlinedIcon
-                className="icon"
-                onClick={() => handleDelete(params.row.id)}
-              />
-            </div> */}
           </div>
         );
       },
